@@ -1,0 +1,74 @@
+version: "3.6"
+services:
+  eurekaserver:
+    image: yurekesley/eurekaserver:1.0.0-boaentrega
+    environment:
+      SPRING_SECURITY_USER: admin
+      SPRING_SECURITY_PASSWORD: admin
+    ports:
+      - 8761:8761
+    networks:
+      - gsl-solution
+    deploy:
+      mode: global
+  apigetway:
+    image: yurekesley/apigatway:1.0.0-boaentrega
+    environment:
+      EUREKA_URI: http://admin:admin@eurekaserver:8761/eureka
+      EUREKA_CLIENT_INSTANCE_HOSTNAME: apigetway     
+      #KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/master
+      KEYCLOAK_ISSUER_URI: http://172.19.75.176:8080/auth/realms/master
+    ports:
+      - 3000:3000
+    networks:
+      - prod
+      - gsl-solution
+    deploy:
+      mode: global
+  mscadastro:
+    image: yurekesley/mscadastro:1.0.0-boaentrega           
+    environment:
+      EUREKA_URI: http://admin:admin@eurekaserver:8761/eureka
+      EUREKA_CLIENT_INSTANCE_HOSTNAME: mscadastro
+    networks:
+      - gsl-solution
+    deploy:
+      mode: replicated
+      replicas: 1
+  mslogistica:
+    image: yurekesley/mslogistica:1.0.0-boaentrega           
+    environment:
+      EUREKA_URI: http://admin:admin@eurekaserver:8761/eureka
+      EUREKA_CLIENT_INSTANCE_HOSTNAME: mslogistica
+    networks:
+      - gsl-solution
+    deploy:
+      mode: replicated
+      replicas: 1
+  msatendimento:
+    image: yurekesley/msatendimento:1.0.0-boaentrega           
+    environment:
+      EUREKA_URI: http://admin:admin@eurekaserver:8761/eureka
+      EUREKA_CLIENT_INSTANCE_HOSTNAME: msatendimento
+    networks:
+      - gsl-solution
+    deploy:
+      mode: replicated
+      replicas: 1
+  msgestao:
+    image: yurekesley/msgestao:1.0.0-boaentrega           
+    environment:
+      EUREKA_URI: http://admin:admin@eurekaserver:8761/eureka
+      EUREKA_CLIENT_INSTANCE_HOSTNAME: msgestao
+    networks:
+      - gsl-solution
+    deploy:
+      mode: replicated
+      replicas: 1
+networks:
+  gsl-solution:
+  prod: 
+    external: true
+      
+
+   

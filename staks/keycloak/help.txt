@@ -1,0 +1,13 @@
+#ADD ADMIN USER
+docker exec keycloak \
+    /opt/jboss/keycloak/bin/add-user-keycloak.sh \
+    -u admin \
+    -p admin \
+&& docker restart keycloak
+
+
+# VERIFICAR DO USUARIO
+http://localhost:8080/auth/realms/<realm-name>/account/
+
+
+ "noImplicitAny": true,

@@ -1,0 +1,54 @@
+version: "3.6"
+services:
+  rabbitmq1:
+    image: yurekesley/rabbitmq:3.7.8-cluster-management
+    hostname: rabbitmq1
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_ERLANG_COOKIE="YSJSOIPIQHPEZQSUII"
+    networks:
+      - prod
+    volumes:
+      - rabbitmq-01-data:/var/lib/rabbitmq     
+    deploy:
+      mode: global
+      #placement:
+        #constraints: [node.labels.rabbitmq1 == true]
+  rabbitmq2:
+      image: yurekesley/rabbitmq:3.7.8-cluster-management
+      hostname: rabbitmq2
+      environment:
+        - RABBITMQ_DEFAULT_USER=admin
+        - RABBITMQ_DEFAULT_PASS=admin
+        - RABBITMQ_ERLANG_COOKIE="YSJSOIPIQHPEZQSUII"
+      networks:
+        - prod
+      volumes:
+        - rabbitmq-02-data:/var/lib/rabbitmq
+      deploy:
+        mode: global
+        #placement:
+          #constraints: [node.labels.rabbitmq2 == true]
+  rabbitmq3:
+      image: yurekesley/rabbitmq:3.7.8-cluster-management
+      hostname: rabbitmq3
+      environment:
+        - RABBITMQ_DEFAULT_USER=admin
+        - RABBITMQ_DEFAULT_PASS=admin
+        - RABBITMQ_ERLANG_COOKIE="YSJSOIPIQHPEZQSUII"
+      networks:
+        - prod
+      volumes:
+        - rabbitmq-03-data:/var/lib/rabbitmq
+      deploy:
+        mode: global
+        #placement:
+          #constraints: [node.labels.rabbitmq3 == true]
+networks:
+  prod:
+    external: true
+volumes:
+  rabbitmq-01-data: 
+  rabbitmq-02-data:
+  rabbitmq-03-data:

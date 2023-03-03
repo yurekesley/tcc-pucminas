@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: apigetway
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8080/auth/realms/master}
+server:
+  port: 3000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://admin:admin@localhost:8761/eureka}
+      registry-fetch-interval-seconds: 5
+    fetch-registry: true
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: ${EUREKA_CLIENT_INSTANCE_HOSTNAME:localhost}
+    lease-renewal-interval-in-seconds: 10
+    health-check-url-path: /actuator/health
+
+info:
+  name: "API GetWay"

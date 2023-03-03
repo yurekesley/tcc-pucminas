@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: mscadastro
+  rabbitmq:
+    host: 12345689
+    port: 0000
+    username: admin
+    password: admin
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      registry-fetch-interval-seconds: 5
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: ${EUREKA_CLIENT_INSTANCE_HOSTNAME:localhost}
+    lease-renewal-interval-in-seconds: 10
+    health-check-url-path: /actuator/health
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

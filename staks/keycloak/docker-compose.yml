@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  keycloak:
+      image: quay.io/keycloak/keycloak:16.1.1
+      depends_on:
+        - postgres
+      container_name: keycloak
+      environment:
+        DB_VENDOR: postgres
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: admin
+        DB_PASSWORD: keycloak
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin
+        KEYCLOAK_ADMIN_PASSWORD: admin 
+      ports:
+        - "8080:8080"
+      restart: unless-stopped
+      networks:
+        - prod
+        - local-keycloak
+      deploy:
+        mode: replicated
+        replicas: 1
+        placement:
+          max_replicas_per_node: 1
+          constraints:
+            - node.role==manager
+        resources:
+          limits:
+            cpus: '1.50'
+            memory: 1024M
+          reservations:
+            cpus: '0.05'
+            memory: 128M
+  postgres:
+    image: postgres:13.2
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: keycloak
+    networks:
+      - local-keycloak
+networks:
+  local-keycloak:
+  prod: 
+    external: true
+   
+
+
+
