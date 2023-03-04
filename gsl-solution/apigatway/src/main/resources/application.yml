@@ -13,14 +13,14 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8080/auth/realms/master}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://172.19.75.176:8080/auth/realms/master}
 server:
   port: 3000
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://admin:admin@localhost:8761/eureka}
+      defaultZone: ${EUREKA_URI:http://admin:admin@localhost:18761/eureka}
       registry-fetch-interval-seconds: 5
     fetch-registry: true
   instance:
